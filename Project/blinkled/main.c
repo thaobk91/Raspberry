@@ -1,35 +1,32 @@
 
-#include <stdio.h>
 #include <wiringPi.h>
 
 
-#define BUTTON_PIN 				0
-
-int eventCounter = 0;
-void vButtonHandle(void)
-{
-	eventCounter++;
-	//printf("Button event!\r\n");
-}
-
+#define GPIO_BLINK 				27
 
 int main(void)
 {
-    wiringPiSetup();
-	
-	wiringPiISR(BUTTON_PIN, INT_EDGE_FALLING, &vButtonHandle);
+    wiringPiSetupGpio();
 
-    pinMode(2, OUTPUT);
-	//pullUpDnControl (BUTTON_PIN, PUD_UP);
+    pinMode(GPIO_BLINK, OUTPUT);
 
     while(1)
     {
-		printf( "counter. = %d\n", eventCounter );
-        digitalWrite(2, HIGH);
+        digitalWrite(GPIO_BLINK, HIGH);
         delay(500);
-        digitalWrite(2, LOW);
+        digitalWrite(GPIO_BLINK, LOW);
         delay(500);
     }
 
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
