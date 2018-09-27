@@ -2,45 +2,43 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
-#include <stdlib.h>
+
 #include <wiringPi.h>
+#include <wiringSerial.h>
 
+int main ()
+{
+	int fd ;
+	char Buffer[100];
+	int BuffLenght = 0;
 
-#define BUTTON_PIN 17
+	if ((fd = serialOpen ("/dev/ttyAMA0", 115200)) < 0)
+	{
+		printf ("Unable to open serial device\n");
+		return 1 ;
+	}
 
-// the event counter
-volatile int eventCounter = 0;
+	while(1)
+	{
+		while(serialDataAvail(fd))
+		{
+			char c = serialGetchar(fd);
+			fflush (stdout);
 
-// -------------------------------------------------------------------------
+			if(c != '!')
+				Buffer[BuffLenght++] = c;
+			else
+				break;
+		}
 
-void myInterrupt(void) {
-   eventCounter++;
-}
+		if(strcmp(Buffer, "abc") == 0)
+			serialPuts(fd, "Hello world\r\n");
 
+		memset(Buffer, 0, BuffLenght);
+		BuffLenght = 0;
+	}
 
-
-int main(void) {
-  // sets up the wiringPi library
-  if (wiringPiSetupGpio () < 0) {
-      fprintf (stderr, "Unable to setup wiringPi: %s\n", strerror (errno));
-      return 1;
-  }
-
-  // set Pin 17/0 generate an interrupt on high-to-low transitions
-  // and attach myInterrupt() to the interrupt
-  if ( wiringPiISR (BUTTON_PIN, INT_EDGE_FALLING, &myInterrupt) < 0 ) {
-      fprintf (stderr, "Unable to setup ISR: %s\n", strerror (errno));
-      return 1;
-  }
-
-  // display counter value every second.
-  while ( 1 ) {
-    printf( "%d\n", eventCounter );
-    eventCounter = 0;
-    delay( 1000 ); // wait 1 second
-  }
-
-  return 0;
+	return 0 ;
 }
 
 

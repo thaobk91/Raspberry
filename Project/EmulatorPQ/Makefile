@@ -6,19 +6,19 @@ CFLAGSS= -g -Wall
 BUILD_DIR = Build
 
 #Source
-SUBMODULE_DIR := 
+SUBMODULE_DIR := ./Network ./Network/mqttlib_mosquitto ./Interface
 
 SUBMODULE_INC := $(foreach dir, $(SUBMODULE_DIR), -I$(dir))
 SUBMODULE_SRC := $(foreach dir, $(SUBMODULE_DIR), $(wildcard $(dir)/*.c))
 SUBMODULE_OJB := $(SUBMODULE_SRC:.c=.o)
 BUILD_OBJ = $(patsubst %, $(BUILD_DIR)/%, $(SUBMODULE_OJB))
 
-TARGET= uart
+TARGET= EmulatorPQ
 
 all: $(TARGET)
 
 $(TARGET): $(BUILD_DIR)/main.o $(BUILD_OBJ)
-	$(CC) $(CFLAGS) -o $(TARGET) $(BUILD_DIR)/main.o $(BUILD_OBJ) -lwiringPi
+	$(CC) $(CFLAGS) -o $(TARGET) $(BUILD_DIR)/main.o $(BUILD_OBJ) -lwiringPi -pthread
 	
 $(BUILD_DIR)/%.o: %.c
 	@[ -d $(@D) ] || mkdir $(@D)

@@ -1,0 +1,6 @@
+26-0-{"TypePacket":"DAQI","DeviceIDEp":"4E4543801003002A","TypeDevice":"Env_AQI","Data":{"Temp":"28","Humi":"78","Press":"100689","CO":"31","NO2":"88","SO2":"57","O3":"0","PM2_5":"5","PM10":"24","AQIS":"88"}}
+27-0-{"TypePacket":"DAQI","DeviceIDEp":"4E4543801003002A","TypeDevice":"Env_AQI","Data":{"Temp":"31","Humi":"80","Press":"100804","CO":"32","NO2":"87","SO2":"56","O3":"2","PM2_5":"6","PM10":"18","AQIS":"87"}}
+28-0-{"TypePacket":"DAQI","DeviceIDEp":"4E4543801003002A","TypeDevice":"Env_AQI","Data":{"Temp":"31","Humi":"80","Press":"100692","CO":"30","NO2":"87","SO2":"55","O3":"3","PM2_5":"4","PM10":"22","AQIS":"87"}}
+29-0-{"TypePacket":"DAQI","DeviceIDEp":"4E4543801003002A","TypeDevice":"Env_AQI","Data":{"Temp":"32","Humi":"78","Press":"100500","CO":"30","NO2":"88","SO2":"54","O3":"2","PM2_5":"4","PM10":"17","AQIS":"88"}}
+30-0-{"TypePacket":"DAQI","DeviceIDEp":"4E4543801003002A","TypeDevice":"Env_AQI","Data":{"Temp":"30","Humi":"95","Press":"100419","CO":"30","NO2":"89","SO2":"56","O3":"6","PM2_5":"6","PM10":"21","AQIS":"89"}}
+1-0-{"TypePacket":"DAQI","DeviceIDEp":"4E4543801003002A","TypeDevice":"Env_AQI","Data":{"Temp":"33","Humi":"76","Press":"100910","CO":"31","NO2":"87","SO2":"56","O3":"5","PM2_5":"3","PM10":"7","AQIS":"87"}}
