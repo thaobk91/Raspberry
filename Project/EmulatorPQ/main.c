@@ -140,6 +140,8 @@ void *vMQTTThread_EventLoop( void *vPtr )
 					iMqttThread_SendToCloud(HAQI);
 				else if(sendDAQI == true)
 					iMqttThread_SendToCloud(DAQI);
+				sendHAQI = false;
+				sendDAQI = false;
 				break;
 		}
 
@@ -198,6 +200,8 @@ int iMqttThread_SendToCloud(char *pData)
 		usleep(1000);
 		count++;
 	}
+
+	Enum_Mqtt_Event = eEVENT_IDLE;
 
 	return _MqttStatus.SendOK;
 }
