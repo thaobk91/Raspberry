@@ -98,7 +98,7 @@ void *vMQTTThread_EventLoop( void *vPtr )
 			case eEVENT_IDLE:
 				getDateTime(&_DateTime);
 
-				if( ((_DateTime.minute == 8) || (_DateTime.minute == 52)) && (_DateTime.second == 0) )
+				if( ((_DateTime.minute == 17) || (_DateTime.minute == 45)) && (_DateTime.second == 0) )
 				{
 					vFileData_getHAQI( HAQI, _DateTime.day, _DateTime.hour );
 					printf("HAQI = %s\r\n", HAQI);
@@ -195,9 +195,9 @@ int iMqttThread_SendToCloud(char *pData)
 	unsigned long count = 0;
 	_MqttStatus.SendOK = -1;
 	vMQTTClient_Publish(pData);
-	while( (_MqttStatus.SendOK == -1) && (count < 3000) && (_MqttStatus.Connected) )
+	while( (_MqttStatus.SendOK == -1) && (count < (3000000 / 100000)) && (_MqttStatus.Connected) )
 	{
-		usleep(1000);
+		usleep(100000);
 		count++;
 	}
 
