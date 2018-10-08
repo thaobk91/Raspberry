@@ -18,7 +18,7 @@
 #include "MQTTClient.h"
 
 
-unsigned char uIDGW[17] = "4E4543801003002A";
+extern unsigned char uIDGW[17];
 
 
 struct mosquitto *xMQTTClient = NULL;
@@ -36,16 +36,11 @@ struct Client_Config xMQTTClient_Config =
 };
 
 unsigned long ulSendCounter = 0;
+bool bMqtt_Connected = false;
 
 
-MqttStatus _MqttStatus =
-{
-	.uMQTT_RX_Buffer	= {0},
-	.MessageReceived	= false,
-	.Connected			= false,
-	.Disconnected		= true,
-	.SendOK				= -1,
-};
+
+void (*mqttCallback)( void *, int);
 
 
 
@@ -65,10 +60,7 @@ static void vMQTTClient_Message_Callback( struct mosquitto *xMosq, void *vUserDa
 	if(xMessage->payloadlen)
 	{
 		printf( "\n--- MQTTClient: Receive message \"%s\" at topic \"%s\"\n", (char *)xMessage->payload, xMessage->topic );
-		while(_MqttStatus.MessageReceived); //wait for data process done
-		memset(_MqttStatus.uMQTT_RX_Buffer, 0, strlen(_MqttStatus.uMQTT_RX_Buffer));
-		strcpy(_MqttStatus.uMQTT_RX_Buffer, (char *)xMessage->payload);
-		_MqttStatus.MessageReceived = true;
+		mqttCallback(xMessage->payload, eEVENT_MQTT_RECEIVED);
 	}
 	else
 	{
@@ -99,14 +91,14 @@ static void vMQTTClient_Connect_Callback(struct mosquitto *xMosq, void *vUserDat
 		printf("--- MQTTClient: Client connect to host successfully!\r\n");
 		printf("--- MQTTClient: Subcribing...\r\n");
 		/* Subscribe to broker information topics on successful connect. */
-		_MqttStatus.Connected = true;
-		_MqttStatus.Disconnected = false;
+		mqttCallback(NULL, eEVENT_MQTT_CONNECTED);
+		bMqtt_Connected = true;
 		mosquitto_subscribe(xMosq, NULL, cfg->TopicSub, cfg->Qos);
 	}
 	else
 	{
-		_MqttStatus.Connected = false;
-		_MqttStatus.Disconnected = true;
+		mqttCallback(NULL, eEVENT_MQTT_DISCONNECTED);
+		bMqtt_Connected = false;
 		printf("--- MQTTClient: Connect failed\n");
 		if(iResult)
 		{
@@ -130,8 +122,8 @@ static void vMQTTClient_Connect_Callback(struct mosquitto *xMosq, void *vUserDat
 static void vMQTTClient_Disconnect_Callback( struct mosquitto *xMosq, void *vUserData, int iResult )
 {
 	printf("\r\n--- MQTTClient: Client disconnected\r\n\n");
-	_MqttStatus.Connected = false;
-	_MqttStatus.Disconnected = true;
+	mqttCallback(NULL, eEVENT_MQTT_DISCONNECTED);
+	bMqtt_Connected = false;
 }
 
 
@@ -178,12 +170,12 @@ static void vMQTTClient_Publish_Callback( struct mosquitto *xMosq, void *vUserDa
 {
 	if(iResult != -1)
 	{
-		_MqttStatus.SendOK = 1;
+		mqttCallback(NULL, eEVENT_MQTT_PUBLISH_OK);
 		printf("--- MQTTClient: Publish data successfully\r\n");
 	}
 	else
 	{
-		_MqttStatus.SendOK = 0;
+		mqttCallback(NULL, eEVENT_MQTT_PUBLISH_NOK);
 		printf("--- MQTTClient: Publish data fail\r\n");
 	}
 }
@@ -216,26 +208,21 @@ void vMQTTClient_Log_Callback( struct mosquitto *xMosq, void *vUserData, int iLe
 
 
 /******************************************************************************
- * Function	: int iMQTTClient_Connect( void )
+ * Function	: int iMQTTClient_Connect( void (*_mqttCallback) ( void *, int ) )
  * Desc		: MQTT client Connect to host
  * Param	: none
  * Return	: none
  * ***************************************************************************/
-int iMQTTClient_Connect( void )
+int iMQTTClient_Connect( void (*_mqttCallback) ( void *, int ) )
 {
 	char cClientID[32] = {0};
 	char cStr1[128] = {0};
-	char cStr2[128] = {0};
 
 	sprintf(cClientID, "SMH-%s", (char *)uIDGW);
 
-//	if(iClient_Config_Load(&xMQTTClient_Config) != MOSQ_ERR_SUCCESS)
-//		return 1;
-
 	sprintf(cStr1, "/SCPCloud/DEVICE/%s", (char *)uIDGW);
 	xMQTTClient_Config.TopicPub = cStr1;
-	sprintf(cStr2, "/IN-CSB1/command/%s", (char *)uIDGW);
-	xMQTTClient_Config.TopicSub = cStr2;
+	xMQTTClient_Config.TopicSub = "/IN-CSB1/command/serial-ESP8266GW1";
 	printf("--- MQTTClient: Pub = %s\r\n", xMQTTClient_Config.TopicPub);
 	printf("--- MQTTClient: Sub = %s\r\n\r\n", xMQTTClient_Config.TopicSub);
 
@@ -263,6 +250,9 @@ int iMQTTClient_Connect( void )
 
 	if(iClient_Opts_Set(xMQTTClient, &xMQTTClient_Config))
 		return 1;
+
+	if(_mqttCallback != NULL)
+		mqttCallback = _mqttCallback;
 
 	mosquitto_connect_callback_set( xMQTTClient, vMQTTClient_Connect_Callback );
 	mosquitto_disconnect_callback_set( xMQTTClient,  vMQTTClient_Disconnect_Callback );
@@ -313,41 +303,17 @@ void vMQTTClient_Reconnect( void )
  * ***************************************************************************/
 void vMQTTClient_Publish( char *uMessage )
 {
-	if(_MqttStatus.Connected == true)
+	if(bMqtt_Connected == true)
 	{
 		ulSendCounter++;
-		printf("--- MQTTClient: send \"%s\" lenght = %d to Cloud. Send counter = %ld\r\n", uMessage, (int)strlen(uMessage), ulSendCounter);
+		printf("--- MQTTClient: send \"%s\" lenght = %d at topic \"%s\". Send counter = %ld\r\n", uMessage, (int)strlen(uMessage), xMQTTClient_Config.TopicPub, ulSendCounter);
 		mosquitto_publish( xMQTTClient, NULL, xMQTTClient_Config.TopicPub, strlen(uMessage), uMessage, 0, false);
 	}
 	else
 	{
-		_MqttStatus.SendOK = 0;
+		mqttCallback(NULL, eEVENT_MQTT_PUBLISH_NOK);
 		printf("--- MQTTClient: Can't publish because mqtt client is disconnected\r\n");
 	}
-}
-
-
-
-
-/******************************************************************************
- * Function	: void vMQTTClient_Save_Config(char *Host, int Port, char *User, char *Pwd, int KeepAlive, char *Pub, char *Sub)
- * Desc		: save config
- * Param	: none
- * Return	: none
- * ***************************************************************************/
-void vMQTTClient_Save_Config(char *Host, int Port, char *User, char *Pwd, int KeepAlive, char *Pub, char *Sub)
-{
-	xMQTTClient_Config.Host = Host;
-	xMQTTClient_Config.Port = Port;
-	xMQTTClient_Config.username = User;
-	xMQTTClient_Config.password = Pwd;
-	xMQTTClient_Config.Keepalive = KeepAlive;
-	xMQTTClient_Config.TopicPub = Pub;
-	xMQTTClient_Config.TopicSub = Sub;
-	if(iClient_Config_Save(&xMQTTClient_Config) == MOSQ_ERR_SUCCESS)
-		printf("--- MQTTClient: mqtt param config successfully\r\n");
-	else
-		printf("--- MQTTClient: mqtt param config failture\r\n");
 }
 
 
