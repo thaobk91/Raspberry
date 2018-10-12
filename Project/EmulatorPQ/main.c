@@ -82,6 +82,7 @@ static void vMQTTThread_Event_Callback( void *Buffer, int Event )
 {
 	switch(Event)
 	{
+<<<<<<< HEAD
 		case eEVENT_MQTT_IDLE:
 			break;
 
@@ -102,6 +103,60 @@ static void vMQTTThread_Event_Callback( void *Buffer, int Event )
 		case eEVENT_MQTT_PUBLISH_OK:
 			if(sendHAQI == true)
 			{
+=======
+		switch(Enum_Mqtt_Event)
+		{
+			case eEVENT_BUSY:
+
+				break;
+
+			case eEVENT_CONNECTED:
+			case eEVENT_IDLE:
+				getDateTime(&_DateTime);
+
+				if( ((_DateTime.minute == 17) || (_DateTime.minute == 45)) && (_DateTime.second == 0) )
+				{
+					vFileData_getHAQI( HAQI, _DateTime.day, _DateTime.hour );
+					printf("HAQI = %s\r\n", HAQI);
+					sendHAQI = true;
+					Enum_Mqtt_Event = eEVENT_SEND;
+				}
+				if( ((_DateTime.hour == 0) || (_DateTime.hour == 9) || (_DateTime.hour == 18)) && \
+					(_DateTime.minute == 3) && (_DateTime.minute == 0) \
+					)
+				{
+					vFileData_getDAQI( DAQI, _DateTime.day, _DateTime.hour );
+					printf("HAQI = %s\r\n", DAQI);
+					sendDAQI = true;
+					Enum_Mqtt_Event = eEVENT_SEND;
+				}
+
+				if(_MqttStatus.MessageReceived == true)
+					Enum_Mqtt_Event = eEVENT_RECEIVED;
+				else if(_MqttStatus.Disconnected == true)
+					Enum_Mqtt_Event = eEVENT_DISCONNECTED;
+				break;
+
+			case eEVENT_DISCONNECTED:
+				if(_MqttStatus.Connected == true)
+					Enum_Mqtt_Event = eEVENT_CONNECTED;
+				else
+					sleep(1);
+				break;
+
+			case eEVENT_RECEIVED:
+				printf(" MQTT Client received data = %s\r\n", _MqttStatus.uMQTT_RX_Buffer);
+				_MqttStatus.MessageReceived = false;
+				break;
+
+			case eEVENT_SEND:
+				Enum_Mqtt_Event = eEVENT_BUSY;
+
+				if(sendHAQI == true)
+					iMqttThread_SendToCloud(HAQI);
+				else if(sendDAQI == true)
+					iMqttThread_SendToCloud(DAQI);
+>>>>>>> 40d920c04caaa12060106f89d3df13bf9c9725c5
 				sendHAQI = false;
 			}
 			else if(sendDAQI == true)
@@ -149,6 +204,7 @@ void *vMqttThread_Run( void *vPtr )
  * ***************************************************************************/
 int main( void )
 {
+<<<<<<< HEAD
 	unsigned int uiSendCounter = 0;
 	int iResult = -1;
 
@@ -159,6 +215,15 @@ int main( void )
 	{
 		printf("--- Main: mqtt client thread return code: %d\n", iResult );
 		return 0;
+=======
+	unsigned long count = 0;
+	_MqttStatus.SendOK = -1;
+	vMQTTClient_Publish(pData);
+	while( (_MqttStatus.SendOK == -1) && (count < (3000000 / 100000)) && (_MqttStatus.Connected) )
+	{
+		usleep(100000);
+		count++;
+>>>>>>> 40d920c04caaa12060106f89d3df13bf9c9725c5
 	}
 
 	while(1)
