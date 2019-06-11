@@ -9,38 +9,27 @@
 #define SOURCE_MQTTCLIENT_H_
 
 
-#define macroMQTT_RX_BUFFER_LENGHT				512
-#define macroRX_TX_BUFFER_LENGHT				512
-
-typedef struct
+typedef enum
 {
-	char 	uMQTT_RX_Buffer[macroRX_TX_BUFFER_LENGHT];
-	bool	MessageReceived;
-	bool	Connected;
-	bool	Disconnected;
-	int		SendOK;
-}MqttStatus;
+	eEVENT_MQTT_IDLE = 0,
+	eEVENT_MQTT_CONNECTED,
+	eEVENT_MQTT_DISCONNECTED,
+	eEVENT_MQTT_RECEIVED,
+	eEVENT_MQTT_PUBLISH_OK,
+	eEVENT_MQTT_PUBLISH_NOK,
+}Enum_MQTT_EVENT;
+
+
 
 
 
 /******************************************************************************
- * Function	: int iMQTTClient_Connect( void )
+ * Function	: int iMQTTClient_Connect( void (*_mqttCallback) ( void *, int ) )
  * Desc		: MQTT client Connect to host
  * Param	: none
  * Return	: none
  * ***************************************************************************/
-int iMQTTClient_Connect( void );
-
-
-
-
-/******************************************************************************
- * Function	: void vMQTTClient_Reconnect( void )
- * Desc		: MQTT client reconnect to host
- * Param	: none
- * Return	: none
- * ***************************************************************************/
-void vMQTTClient_Reconnect( void );
+int iMQTTClient_Connect( void (*_mqttCallback) ( void *, int ) );
 
 
 
@@ -53,17 +42,6 @@ void vMQTTClient_Reconnect( void );
  * Return	: none
  * ***************************************************************************/
 void vMQTTClient_Publish( char *uMessage );
-
-
-
-
-/******************************************************************************
- * Function	: void vMQTTClient_Save_Config(char *Host, int Port, char *User, char *Pwd, int KeepAlive, char *Pub, char *Sub)
- * Desc		: save config
- * Param	: none
- * Return	: none
- * ***************************************************************************/
-void vMQTTClient_Save_Config(char *Host, int Port, char *User, char *Pwd, int KeepAlive, char *Pub, char *Sub);
 
 
 

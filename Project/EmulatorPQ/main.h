@@ -19,13 +19,4 @@
 #include <netinet/in.h>
 
 
-/******************************************************************************
- * Function	: int iMqttThread_SendToCloud(char *pData)
- * Desc		: mqtt client send data
- * Param	: none
- * Return	: none
- * ***************************************************************************/
-int iMqttThread_SendToCloud(char *pData);
-
-
 #endif /* THREAD_MQTTTHREAD_H_ */

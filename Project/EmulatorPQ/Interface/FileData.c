@@ -20,8 +20,8 @@
 
 
 
-#define macroFILE_HAQI					"./HAQI.txt"
-#define macroFILE_DAQI					"./DAQI.txt"
+#define macroFILE_HAQI					"/home/pi/Desktop/EmulatorPQ/HAQI.txt"
+#define macroFILE_DAQI					"/home/pi/Desktop/EmulatorPQ/DAQI.txt"
 
 
 
@@ -33,10 +33,14 @@ void vFileData_getHAQI( char *HAQI, unsigned char Day, unsigned char Hour )
 	unsigned int ui = 0;
 	unsigned char isOK = 0;
 
+	memset(HAQI, 0, strlen(HAQI));
+
+	printf("--- FileData: Day = %d, Hour = %d\r\n", Day, Hour);
+
 	fileSrc = open(macroFILE_HAQI, O_RDONLY);
 	if(fileSrc < 0)
 	{
-		printf("--- FileData: get HAQI - cann't open file src\r\n");
+		printf("--- FileData: get HAQI - cann't open file \"%s\"\r\n", macroFILE_HAQI);
 		return;
 	}
 
@@ -64,6 +68,7 @@ void vFileData_getHAQI( char *HAQI, unsigned char Day, unsigned char Hour )
 				break;
 			memset(Buff, 0, strlen(Buff));
 			ui = 0;
+			isOK = 0;
 		}
 		else
 			Buff[ui++] = c;
@@ -84,10 +89,13 @@ void vFileData_getDAQI( char *DAQI, unsigned char Day, unsigned char Hour )
 	unsigned int ui = 0;
 	unsigned char isOK = 0;
 
+	memset(DAQI, 0, strlen(DAQI));
+	printf("--- FileData: Day = %d, Hour = %d\r\n", Day, Hour);
+
 	fileSrc = open(macroFILE_DAQI, O_RDONLY);
 	if(fileSrc < 0)
 	{
-		printf("--- FileData: get DAQI - cann't open file src\r\n");
+		printf("--- FileData: get DAQI - cann't open file \"%s\"\r\n", macroFILE_DAQI);
 		return;
 	}
 
@@ -114,6 +122,7 @@ void vFileData_getDAQI( char *DAQI, unsigned char Day, unsigned char Hour )
 				break;
 			memset(Buff, 0, strlen(Buff));
 			ui = 0;
+			isOK = 0;
 		}
 		else
 			Buff[ui++] = c;

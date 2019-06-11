@@ -25,5 +25,6 @@ $(BUILD_DIR)/%.o: %.c
 	$(CC) $(CFLAGS) -I./ $(SUBMODULE_INC) -lwiringPi -c $< -o $@ 
 
 clean:
+	rm -f $(BUILD_OBJ)
 	rm -f $(BUILD_DIR)/*.o
 	rm -f $(TARGET)
