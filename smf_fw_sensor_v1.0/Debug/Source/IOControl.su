@@ -1,0 +1,16 @@
+IOControl.c:58:6:IOControl_WDT_Done	0	static
+IOControl.c:66:6:IOControl_Battery_Charger_ON	0	static
+IOControl.c:72:6:IOControl_Battery_Charger_OFF	0	static
+IOControl.c:80:6:IOControl_Lora_ON	0	static
+IOControl.c:86:6:IOControl_Lora_OFF	0	static
+IOControl.c:95:6:IOControl_SS_TH_Soil_ON	0	static
+IOControl.c:100:6:IOControl_SS_TH_Soil_OFF	0	static
+IOControl.c:107:6:IOControl_SS_EC_ON	0	static
+IOControl.c:112:6:IOControl_SS_EC_OFF	0	static
+IOControl.c:119:6:IOControl_SS_PH_ON	0	static
+IOControl.c:124:6:IOControl_SS_PH_OFF	0	static
+IOControl.c:131:6:IOControl_SS_CO2_ON	0	static
+IOControl.c:136:6:IOControl_SS_CO2_OFF	0	static
+IOControl.c:143:6:IOControl_SS_THL_ON	0	static
+IOControl.c:148:6:IOControl_SS_THL_OFF	0	static
+IOControl.c:155:6:IOControl_Init	16	static

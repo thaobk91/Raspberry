@@ -1,0 +1,6 @@
+SPI.c:25:6:SPI_Init	16	static
+SPI.c:62:6:SPI_State_Ready	8	static
+SPI.c:78:6:SPI_WriteByte	16	static
+SPI.c:95:9:SPI_ReadByte	24	static
+SPI.c:115:6:SPI_WriteBytes	8	static
+SPI.c:132:6:SPI_ReadBytes	8	static

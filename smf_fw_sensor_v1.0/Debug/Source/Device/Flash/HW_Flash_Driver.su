@@ -1,0 +1,7 @@
+HW_Flash_Driver.c:23:6:HW_Flash_Driver_setOutput_Dir	0	static
+HW_Flash_Driver.c:38:6:HW_Flash_Driver_setOutput_HighLevel	0	static
+HW_Flash_Driver.c:53:6:HW_Flash_Driver_setOutput_LowLevel	0	static
+HW_Flash_Driver.c:68:6:HW_Flash_Driver_SPI_Init	0	static
+HW_Flash_Driver.c:81:6:HW_Flash_Driver_SPI_Ready	0	static
+HW_Flash_Driver.c:96:6:HW_Flash_Driver_SPI_Write_Bytes	0	static
+HW_Flash_Driver.c:111:6:HW_Flash_Driver_SPI_Read_Bytes	0	static

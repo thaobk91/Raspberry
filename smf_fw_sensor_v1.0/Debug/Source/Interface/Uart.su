@@ -1,0 +1,3 @@
+Uart.c:100:17:Uart_Read	32	static
+Uart.c:70:13:Uart_Write	8	static
+Uart.c:35:6:Uart_Open	16	static

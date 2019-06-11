@@ -1,0 +1,4 @@
+OTATask.c:93:13:OTATask_Start_Callback	0	static
+OTATask.c:101:13:OTATask_Data_Callback	0	static
+OTATask.c:112:13:OTATask_data_done_Callback	0	static
+OTATask.c:38:6:OTATask	8	static

@@ -1,0 +1,3 @@
+Lora.c:33:6:Lora_Init	16	static
+Lora.c:82:6:Lora_Transmit	24	static
+Lora.c:110:10:Lora_Receive	16	static

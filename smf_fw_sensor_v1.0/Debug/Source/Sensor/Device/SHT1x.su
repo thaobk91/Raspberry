@@ -1,0 +1,4 @@
+SHT1x.c:25:17:SHT1x_ReadRaw.isra.0	16	static
+SHT1x.c:37:7:fSHT1x_ReadTemp	8	static
+SHT1x.c:46:7:fSHT1x_ReadHumi	32	static
+SHT1x.c:59:6:SHT1x_Read	32	static

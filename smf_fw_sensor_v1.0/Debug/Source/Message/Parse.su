@@ -1,0 +1,2 @@
+Parse.c:86:11:Parse_getMsgData	856	static
+Parse.c:134:14:Parse_setMsgData	440	static

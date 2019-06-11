@@ -1,0 +1,10 @@
+HW_Lora_Driver.c:21:6:HW_Lora_Driver_Delay_ms	0	static
+HW_Lora_Driver.c:34:6:HW_Lora_Driver_setPin_Output	0	static
+HW_Lora_Driver.c:47:6:HW_Lora_Driver_setPin_Input	0	static
+HW_Lora_Driver.c:60:5:HW_Lora_Driver_ReadPin	8	static
+HW_Lora_Driver.c:73:6:HW_Lora_Driver_setPin_High	0	static
+HW_Lora_Driver.c:86:6:HW_Lora_Driver_setPin_Low	0	static
+HW_Lora_Driver.c:106:6:HW_Lora_Driver_SPI_Init	0	static
+HW_Lora_Driver.c:121:6:HW_Lora_Driver_SPI_Ready	0	static
+HW_Lora_Driver.c:135:6:HW_Lora_Driver_SPI_WriteByte	0	static
+HW_Lora_Driver.c:148:9:HW_Lora_Driver_SPI_ReadByte	0	static

@@ -1,0 +1,5 @@
+BH1750.c:39:6:BH1750_Begin	16	static
+BH1750.c:55:6:BH1750_SetAddr	16	static
+BH1750.c:47:6:BH1750_SetMode	0	static
+BH1750.c:63:6:BH1750_Init	8	static
+BH1750.c:73:10:BH1750_GetLux	16	static

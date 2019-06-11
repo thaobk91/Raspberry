@@ -1,0 +1,5 @@
+I2C.c:27:6:I2C1_SS_Init	16	static
+I2C.c:61:6:I2C1_SS_AddDevice	0	static
+I2C.c:85:6:I2C1_SS_Write	16	static
+I2C.c:101:6:I2C1_SS_Read	16	static
+I2C.c:116:6:I2C1_SS_Ready	8	static

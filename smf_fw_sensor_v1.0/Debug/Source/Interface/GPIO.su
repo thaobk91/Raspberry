@@ -1,0 +1,9 @@
+GPIO.c:18:6:GPIO_Init	16	static
+GPIO.c:39:6:GPIO_setOutput_Pullup	40	static
+GPIO.c:63:6:GPIO_setOutput_Pulldown	40	static
+GPIO.c:86:6:GPIO_setOutput_NoPull	40	static
+GPIO.c:109:6:GPIO_setInput	40	static
+GPIO.c:132:6:GPIO_setHighlevel	0	static
+GPIO.c:147:6:GPIO_setLowlevel	0	static
+GPIO.c:161:6:GPIO_setToggle	0	static
+GPIO.c:178:6:GPIO_getlevel	8	static

@@ -1,0 +1,12 @@
+Bootloader.c:19:6:Bootloader_Init	16	static
+Bootloader.c:31:9:Bootloader_Erase	40	static
+Bootloader.c:69:6:Bootloader_FlashBegin	0	static
+Bootloader.c:79:9:Bootloader_FlashNext	16	static
+Bootloader.c:110:6:Bootloader_FlashEnd	0	static
+Bootloader.c:117:9:Bootloader_GetProtectionStatus	48	static
+Bootloader.c:199:9:Bootloader_ConfigProtection	64	static
+Bootloader.c:268:9:Bootloader_CheckSize	0	static
+Bootloader.c:274:9:Bootloader_VerifyChecksum	0	static
+Bootloader.c:306:9:Bootloader_CheckForApplication	0	static
+Bootloader.c:312:6:Bootloader_JumpToApplication	16	static
+Bootloader.c:333:6:Bootloader_JumpToSysMem	24	static
